@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+dim=$(tput dim)
 bold=$(tput bold)
 
 red=$'\e[31m'
@@ -12,11 +13,18 @@ Bred='\e[48;5;52m'
 Bgreen='\e[48;5;22m'
 Breset='\e[1;49m'
 
-echo -e "This is a normal line of text"
-echo -e "${bold}This is a bold line of text${reset}"
-echo -e "${cyan}This is an info message"
-echo -e "${bold}And this info message is bold${reset}"
-echo -e "${yellow}This is a warning"
-echo -e "${bold}And this info message is bold${reset}"
-echo -e "${red}This is an error"
-echo -e "${bold}And this error is bold${reset}"
+echo -e "${dim}Dim line of text${reset}"
+echo -e "Normal line of text"
+echo -e "${bold}Bold line of text${reset}"
+
+echo -e "${dim}${cyan}Dim info message${reset}"
+echo -e "${cyan}Normal info message"
+echo -e "${bold}Bold info message${reset}"
+
+echo -e "${dim}${yellow}Dim warning message${reset}"
+echo -e "${yellow}Normal warning message"
+echo -e "${bold}Bold info message${reset}"
+
+echo -e "${dim}${red}Dim error message${reset}"
+echo -e "${red}Normal error message"
+echo -e "${bold}Bold error message${reset}"
