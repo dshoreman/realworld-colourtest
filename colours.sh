@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 main() {
+    colours
     messages
     zsh_prompt blue
     zsh_prompt green "git --no-pager diff"
@@ -27,6 +28,21 @@ bgGreen='\e[48;5;22m'
 bgBGreen='\e[48;5;2m'
 bgBlue='\e[48;5;4m'
 bgReset='\e[49m'
+
+colours() {
+    echo
+    colour_blocks 0 {40..47}
+    colour_blocks "" {100..107}
+}
+
+colour_blocks() {
+    local padding=$1; shift
+
+    for c in "$@"; do
+        echo -ne "\e[${c}m    ${padding}${c}    ${reset} "
+    done
+    echo
+}
 
 git_diff() {
     echo -e "${dim}${cyan}diff --git a/foo.sh b/foo.sh"
