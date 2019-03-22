@@ -14,21 +14,9 @@ Bred='\e[48;5;52m'
 Bgreen='\e[48;5;22m'
 Breset='\e[1;49m'
 
-echo -e "${dim}Dim line of text${reset}"
-echo -e "Normal line of text"
-echo -e "${bold}Bold line of text${reset}"
-
-echo -e "${dim}${cyan}Dim info message${reset}"
-echo -e "${cyan}Normal info message"
-echo -e "${bold}Bold info message${reset}"
-
-echo -e "${dim}${yellow}Dim warning message${reset}"
-echo -e "${yellow}Normal warning message"
-echo -e "${bold}Bold info message${reset}"
-
-echo -e "${dim}${red}Dim error message${reset}"
-echo -e "${red}Normal error message"
-echo -e "${bold}Bold error message${reset}"
+echo -e "${dim}Dim line of text       ${cyan}Dim info message       ${yellow}Dim warning message       ${red}Dim error message${reset}"
+echo -e "Normal line of text    ${cyan}Normal info message    ${yellow}Normal warning message    ${red}Normal error message${reset}"
+echo -e "${bold}Bold line of text      ${cyan}Bold info message      ${yellow}Bold warning message      ${red}Bold error message${reset}"
 
 echo
 echo -e "${dim}${cyan}diff --git a/foo.sh b/foo.sh"
