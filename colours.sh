@@ -70,15 +70,17 @@ zsh_prompt() {
         bg=${bgBGreen}
         dir=${green}
         text=${grey}
+        icons="${red}✘ ${grey}⬇ ${blue}✹ ${green}✚"
     else
         bg=${bgBlue}
         dir=${blue}
         text=${white}
+        icons="${green}✔ ${grey}⬆ ${yellow}✭"
     fi
 
     echo
     echo -en "${bgWhite}${black} 16:20:42 ${bg}${white}${sep}${text} ~/dev/project ${bgWhite}${dir}${sep}"
-    echo -e "${black}  master ${bgReset}${white}${sep}${reset}"
+    echo -e "${black}  master ${icons} ${bgReset}${white}${sep}${reset}"
     echo -e "${bold}${green}\$${reset} ${2}"
 }
 
