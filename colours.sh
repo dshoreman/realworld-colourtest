@@ -74,19 +74,77 @@ messages() {
 }
 
 weechat() {
+    local stats
+
     echo
-    echo -e "${bgBlue} ${green}1.${default}weechat            ${bgReset}${blue}│${bgBlue}${default}Highlight Monitor$(pad 55)${bgReset}"
-    echo -en "${reset}   freenode           ${blue}│${default}16${yellow}:${default}20${yellow}:${default}42 "
-    echo -en "${cyan}<${Bmagenta}freenode#archlinux${cyan}> "
-    echo -e "${default}<${bgMagenta}${Byellow}hunter1${bgReset}${default}> $(whoami): ping!${reset}"
-    echo -en " ${green}2.${default}highmon$(pad 12)${blue}│${bgBlue}${cyan}[${default}17:12${cyan}] [${default}4${cyan}]"
-    echo -en " ${default}${yellow}2${cyan}:${default}highmon ${cyan}[${default}H:"
-    echo -en " ${magenta}3${cyan}:${default}#archlinux${cyan}(${magenta}1${cyan},${yellow}42${cyan}),"
-    echo -e " ${green}5${cyan}:${default}hunter1${cyan}(${green}7${cyan}), ${yellow}4${cyan}(${yellow}512${cyan},${default}538${cyan})] "
-    echo -en "${reset} ${green}3.  ${magenta}#archlinux       ${blue}│${cyan}[${default}INSERT${cyan}]"
-    echo -e "[$(whoami)${cyan}(${default}Ri${cyan})] ${default}▯"
-    echo -e " ${green}4.  ${yellow}#sway$(pad 12)${blue}│$(pad 72 -)"
-    echo -e " ${green}5.  hunter1$(pad 10)${blue}│"
+    echo -e "$(wc_buf weechat 1. open)${bgBlue}${default}Highlight Monitor$(pad 55)${bgReset}"
+    echo -e "$(wc_buf freenode)$(wc_timestamp 16 20 42) $(wc_clabel 'freenode#archlinux') $(wc_nlabel hunter1) $(whoami): ping!"
+
+    stats="$(wc_stat ping 3 '#archlinux' 1 42), $(wc_stat pm 5 hunter1 7), $(wc_stat new 4 512 538)"
+    echo -en "$(wc_buf highmon 2.)${bgBlue}$(wc_label '17:12') $(wc_label 4)"
+    echo -e " ${yellow}2${cyan}:${default}highmon $(wc_label "H: ${stats}") "
+
+    echo -e "$(wc_buf '#archlinux' 3. ping)$(wc_label INSERT) [$(whoami)$(wc_label Ri '(')] ${default}▯"
+    echo -e "$(wc_buf '#sway' 4. new)$(pad 72 -)"
+    echo -e "$(wc_buf hunter1 5. pm)"
+}
+
+wc_buf() {
+    local pre colour num dif space
+
+    if [ "$3" = "ping" ]; then colour=$magenta
+    elif [ "$3" = "new" ]; then colour=$yellow
+    elif [ "$3" = "pm" ]; then colour=$green
+    else colour="${default}"; fi
+
+    [ -n "$3" ] && [ ! "$3" = "open" ] && space="  " || space=""
+    [ "$3" = "open" ] && pre=$bgBlue || pre=$reset
+    num=${2:-  }${space}
+    dif=$(( 21-(${#num}+${#1}) ))
+
+    echo -e "${pre} ${green}${num}${colour}${1}$(pad $dif)${bgReset}${blue}│"
+}
+
+wc_clabel() {
+    wc_label "$1" '<' magenta green
+}
+
+wc_nlabel() {
+    wc_label "$1" '<' Byellow default bgMagenta
+}
+
+wc_stat() {
+    local colour colour2=default id="$2" label value
+
+    case "$1" in
+        "ping")
+            label=$3; colour=magenta; colour2=yellow; shift 3 ;;
+        "pm")
+            label=$3; colour=green; shift 3 ;;
+        "new")
+            colour=yellow; shift 2 ;;
+    esac
+
+    value="$1";
+    [ $# -eq 2 ] && value+="${cyan},${!colour2}${2}"
+    [ -n "$label" ] && label="${cyan}:${default}${label}"
+
+    echo -e "${!colour}${id}${label}$(wc_label "${value}" '(' $colour)"
+}
+
+wc_label() {
+    local tag_o=${2:-[} tag_c=]
+    local c_tag=${!4:-$cyan} c_lbl=${!3:-$default}
+
+    [ "$tag_o" = "<" ] && tag_c=">"
+    [ "$tag_o" = "(" ] && tag_c=")"
+    [ -n "$5" ] && local res=${reset}
+
+    echo -e "${c_tag}${tag_o}${!5}${c_lbl}${1}${res}${c_tag}${tag_c}"
+}
+
+wc_timestamp() {
+    echo -e "${default}${1}${yellow}:${default}${2}${yellow}:${default}${3}"
 }
 
 zsh_prompt() {
