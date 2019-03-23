@@ -23,8 +23,6 @@ blue=$'\e[34m'
 cyan=$'\e[36m'
 yellow=$'\e[33m'
 magenta=$'\e[35m'
-Byellow=$'\e[93m'
-Bmagenta=$'\e[95m'
 reset=$'\e[0m'
 
 bgWhite='\e[48;5;7m'
@@ -32,7 +30,6 @@ bgRed='\e[48;5;52m'
 bgGreen='\e[48;5;22m'
 bgBGreen='\e[48;5;2m'
 bgBlue='\e[48;5;4m'
-bgMagenta='\e[45m'
 bgReset='\e[49m'
 
 pad() {
@@ -46,9 +43,9 @@ colourscheme() {
     if [ "$TERM" = "alacritty" ]; then
         border=$(pad 95 '#')
 
-        echo -en "${white}${border}\n Current Colour Scheme: "
+        echo -en "${white}${border}\n Current Colour Scheme: ${bold}"
         grep -oP '# Colors \(\K[^\)]+' ~/.config/alacritty/alacritty.yml
-        echo "$border${reset}"
+        echo "${reset}${white}$border${reset}"
     fi
 }
 
