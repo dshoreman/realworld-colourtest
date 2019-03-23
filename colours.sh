@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 main() {
+    colourscheme
     colours
     messages
     weechat
@@ -37,6 +38,18 @@ bgReset='\e[49m'
 pad() {
     str=${2:- }
     yes "$str" | head -n "$1" | tr -d '\n'
+}
+
+colourscheme() {
+    local border
+
+    if [ "$TERM" = "alacritty" ]; then
+        border=$(pad 95 '#')
+
+        echo -en "${white}${border}\n Current Colour Scheme: "
+        grep -oP '# Colors \(\K[^\)]+' ~/.config/alacritty/alacritty.yml
+        echo "$border${reset}"
+    fi
 }
 
 colours() {
